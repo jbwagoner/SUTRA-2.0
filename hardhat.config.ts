@@ -1,5 +1,9 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-verify";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -9,20 +13,21 @@ const config: HardhatUserConfig = {
         enabled: true,
         runs: 200
       },
+      viaIR: true
     },
   },
   networks: {
-    hardhat: {},
     polygon_amoy: {
-      url: "https://rpc-amoy.polygon.technology/",
+      url: process.env.POLYGON_AMOY_URL || "https://rpc-amoy.polygon.technology",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 80002,
+      gasPrice: 25000000000,
+      gas: 5000000,
+      allowUnlimitedContractSize: true
     }
   },
-  paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts"
+  etherscan: {
+    apiKey: process.env.POLYGONSCAN_API_KEY
   }
 };
 
