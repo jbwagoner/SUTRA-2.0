@@ -1,0 +1,120 @@
+# SUTRA Token - Audit Guide
+
+## Project Overview
+
+SUTRA (Sustainable Token for Reincarnation and Alignment) is designed as a foundational token for an ecosystem focused on ethical AI alignment, environmental preservation, and stakeholder cooperation. Based on principles adapted from Buddhist ethics, SUTRA implements a "Noble Eightfold Digital Path" to guide AI systems toward ethical consciousness, sustainability, and equitable decision-making.
+
+The token serves as an economic incentive mechanism within this framework, rewarding ethical behavior in AI systems and supporting governance decisions about ethical standards. This document outlines the key aspects of the token contract for the Solidproof audit team.
+
+## Current Deployment Status
+
+As of February 28, 2025, we have deployed only the base ERC20 token contract on the Sepolia testnet. This initial deployment focuses on establishing the core token functionality to facilitate a token sale via Bitbond's platform. Future phases will implement additional alignment and preservation features through separate contracts that interact with this token.
+
+### Deployed Contract Details
+
+- **Contract Name**: SUTRAToken
+- **Testnet**: Sepolia
+- **Contract Address**: 0xfbde622bb732d2e9f77c6bfab7d4435d38e6a723
+- **Token Name**: Sustainable Token for Reincarnation and Alignment
+- **Token Symbol**: SUTRA
+- **Decimals**: 18
+- **Total Supply**: 108,000,000 SUTRA (108 million)
+- **Token Sale Amount**: 1,904 SUTRA on testnet (for testing purposes only)
+
+## Contract Architecture
+
+The SUTRAToken contract follows a standard ERC20 implementation with additional functionality for role-based access control, pausing, and integration with the Bitbond token sale platform:
+
+1. **Core ERC20 Functionality**:
+   - Standard transfer/approve mechanisms
+   - Minting and burning capabilities
+   - Custom decimals parameter
+
+2. **Access Control**:
+   - Role-based permissions (DEFAULT_ADMIN_ROLE, MINTER_ROLE, PAUSER_ROLE, BITBOND_ROLE)
+   - Granular control over administrative functions
+
+3. **Pausability**:
+   - Circuit breaker pattern for emergency situations
+   - Ability to pause/unpause token transfers
+
+4. **Bitbond Integration**:
+   - Support for token sale functionality
+   - Batch minting for distribution
+   - Sale contract authorization
+
+## Security Considerations
+
+We would like the audit to focus on the following key security aspects:
+
+1. **Access Control Integrity**:
+   - Validate that role assignments work correctly
+   - Ensure critical functions are properly protected
+
+2. **Supply Management**:
+   - Confirm the max supply cap is enforced
+   - Verify minting mechanisms respect constraints
+
+3. **Integration Points**:
+   - Analyze the Bitbond integration functions for vulnerabilities
+   - Review batch minting for potential exploits
+
+4. **Compliance with ERC20 Standard**:
+   - Confirm full compliance with the ERC20 specification
+   - Verify proper event emissions
+
+5. **Potential Reentrancy**:
+   - Check for reentrancy vulnerabilities, particularly in functions that interact with external contracts
+
+## Contract Dependencies
+
+The SUTRAToken contract relies on the following OpenZeppelin libraries:
+
+```
+@openzeppelin/contracts/token/ERC20/ERC20.sol
+@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol
+@openzeppelin/contracts/security/Pausable.sol
+@openzeppelin/contracts/access/AccessControl.sol
+```
+
+## Future Development Context
+
+While not in scope for the current audit, it's helpful to understand that this token will later serve as the foundation for the ethical AI alignment ecosystem as described in our whitepaper. Future components include:
+
+1. **Ethical Alignment Metrics**: Implementation of the Noble Eightfold Digital Path with corresponding metrics and assessment tools
+2. **Dynamic Ethical Decision-Making**: Adaptive algorithms that realign based on ethical feedback
+3. **Sustainability Models**: Systems that optimize resource use and promote equitable economic impacts
+4. **Governance Structures**: Community-based governance for ethical standards
+5. **Incentive Mechanisms**: Rewarding ethical behavior within AI systems
+
+These components will be implemented as separate contracts that interact with the SUTRA token through standard ERC20 interfaces, creating a comprehensive framework for ethical AI development.
+
+## Testing Information
+
+The contract has been tested with:
+
+- Hardhat unit tests for all primary functions
+- Testnet deployment validation
+- Integration testing with Bitbond's testnet platform
+
+## Additional Notes for Auditors
+
+1. **Optimization Priorities**:
+   - While gas optimization is always valuable, we prioritize security and correctness over marginal gas savings.
+
+2. **Critical Functions**:
+   - The `mint`, `batchMint`, and role management functions are particularly sensitive.
+
+3. **Expected Behavior**:
+   - The token should maintain a strict cap on its total supply.
+   - Only authorized roles should be able to mint, pause, or manage the token.
+   - Batch operations should be atomic - either fully succeed or fully revert.
+
+Thank you for your thorough review of our contract. We look forward to your findings and recommendations to ensure the security and reliability of the SUTRA token as we prepare for production deployment.
+
+## Contact Information
+
+For any questions during the audit process, please contact:
+- Project Lead: John Wagoner
+- Email: jbw@onezeroeight.ai
+- Telegram: [Your Telegram Handle]
